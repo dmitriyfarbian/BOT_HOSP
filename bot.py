@@ -15,7 +15,7 @@ def send_welcome(message):
     keyboard.add(
         telebot.types.InlineKeyboardButton(text='Создать заявку', callback_data='make-app')
     )
-    bot.send_message(message.chat.id, "Добрый день! Оформим заявочку?", reply_markup=keyboard)
+    bot.send_message(message.chat.id, "Добрый день!\n Для начала оформления заявки - нажмите кнопку ниже ?", reply_markup=keyboard)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == 'make-app')
