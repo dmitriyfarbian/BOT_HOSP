@@ -65,13 +65,14 @@ def input_text(message):
             application_text = application_text + f'{i}: {application[i]}\n'
 
         chat_id = -579112582
-        bot.send_message(chat_id=chat_id, text=application_text)
-        bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+        bot.send_document(chat_id=chat_id, data=message.document.file_id, caption=application_text)
+        # bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
         main.set_state(message.chat.id, config.States.St_OUTPUT)
         bot.send_message(message.chat.id, 'Спасибо, заявка сформирована и отправлена!')
     else:
         bot.send_message(message.chat.id, 'Принимаются файлы формата pdf!\nПопробуйте загрузить заново')
         main.set_state(message.chat.id, config.States.St_EPICRISIS)
+
 
 
 
