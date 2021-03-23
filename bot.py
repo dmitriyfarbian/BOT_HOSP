@@ -57,18 +57,21 @@ def input_text(message):
 
 @bot.message_handler(content_types=['document'], func=lambda message: main.get_current_state(message.chat.id) == config.States.St_EPICRISIS)
 def input_text(message):
-    print(message)
-    application['Отправитель'] = '@' + message.from_user.username
-    application_text = ''
-    for i in application.keys():
-        application_text = application_text + f'{i}: {application[i]}\n'
+    if message.document.file_name.split('.')[-1] == 'pdf':
+        print(message.document.file_name.split('.')[-1])
+        application['Отправитель'] = '@' + message.from_user.username
+        application_text = ''
+        for i in application.keys():
+            application_text = application_text + f'{i}: {application[i]}\n'
 
-    chat_id = -579112582
-    bot.send_message(chat_id=chat_id, text=application_text)
-    bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
-    main.set_state(message.chat.id, config.States.St_OUTPUT)
-    bot.send_message(message.chat.id, 'Спасибо, заявка сформирована и отправлена!')
-
+        chat_id = -579112582
+        bot.send_message(chat_id=chat_id, text=application_text)
+        bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+        main.set_state(message.chat.id, config.States.St_OUTPUT)
+        bot.send_message(message.chat.id, 'Спасибо, заявка сформирована и отправлена!')
+    else:
+        bot.send_message(message.chat.id, 'Принимаются файлы формата pdf!\nПопробуйте загрузить заново')
+        main.set_state(message.chat.id, config.States.St_EPICRISIS)
 
 
 
