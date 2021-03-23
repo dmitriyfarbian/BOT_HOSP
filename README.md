@@ -1,0 +1,1 @@
+This bot was developed for more easy send applications from MO
