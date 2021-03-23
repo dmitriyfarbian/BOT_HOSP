@@ -17,6 +17,16 @@ def send_welcome(message):
     )
     bot.send_message(message.chat.id, "Добрый день!\n Для начала оформления заявки - нажмите кнопку ниже", reply_markup=keyboard)
 
+@bot.message_handler(commands=['reset'])
+def send_welcome(message):
+    keyboard = telebot.types.InlineKeyboardMarkup()
+    # print(message.user.id)
+    keyboard.add(
+        telebot.types.InlineKeyboardButton(text='Создать заявку', callback_data='make-app')
+    )
+    main.set_state(message.chat.id, config.States.St_MO)
+    bot.send_message(message.chat.id, "Добрый день!\n Для начала оформления заявки - нажмите кнопку ниже", reply_markup=keyboard)
+
 
 @bot.callback_query_handler(func=lambda call: call.data == 'make-app')
 def generate_data(call):
@@ -62,10 +72,10 @@ def input_text(message):
         application['Отправитель'] = '@' + message.from_user.username
         application_text = ''
         for i in application.keys():
-            application_text = application_text + f'{i}: {application[i]}\n'
+            application_text = application_text + f'*{i}*: {application[i]}\n'
 
         chat_id = -579112582
-        bot.send_document(chat_id=chat_id, data=message.document.file_id, caption=application_text)
+        bot.send_document(chat_id=chat_id, data=message.document.file_id, caption=application_text, parse_mode='Markdown')
         # bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
         main.set_state(message.chat.id, config.States.St_OUTPUT)
         bot.send_message(message.chat.id, 'Спасибо, заявка сформирована и отправлена!')
