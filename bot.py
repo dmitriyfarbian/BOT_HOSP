@@ -49,7 +49,7 @@ def generate_data(call):
 @bot.callback_query_handler(func=lambda call: call.data == 'end_photo')
 def generate_data(call):
     if call.data == 'end_photo':
-        chat_id = -579112582
+        chat_id = -572032075
         print(photos)
         bot.send_media_group(chat_id=chat_id, media=photos)
         print('Попало')
@@ -104,7 +104,7 @@ def input_text(message):
         for i in application.keys():
             application_text = application_text + f'*{i}*: {application[i]}\n'
 
-        chat_id = -579112582
+        chat_id = -572032075
         bot.send_document(chat_id=chat_id, data=message.document.file_id, caption=application_text, parse_mode='Markdown')
         # bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
         main.set_state(message.chat.id, config.States.St_OUTPUT)
