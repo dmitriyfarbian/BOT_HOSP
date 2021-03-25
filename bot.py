@@ -49,7 +49,7 @@ def generate_data(call):
 @bot.callback_query_handler(func=lambda call: call.data == 'end_photo')
 def generate_data(call):
     if call.data == 'end_photo':
-        chat_id = -572032075
+        chat_id = -579112582
         print(photos)
         bot.send_media_group(chat_id=chat_id, media=photos)
         print('Попало')
@@ -96,12 +96,15 @@ def input_text(message):
 def input_text(message):
     if message.document.file_name.split('.')[-1] == 'pdf':
         print(message.document.file_name.split('.')[-1])
-        application['Отправитель'] = '@' + message.from_user.username
+        try:
+            application['Отправитель'] = '@' + message.from_user.username
+        except TypeError as e:
+            application['Отправитель'] = f'tg://user?id={message.from_user.id}'
         application_text = ''
         for i in application.keys():
             application_text = application_text + f'*{i}*: {application[i]}\n'
 
-        chat_id = -572032075
+        chat_id = -579112582
         bot.send_document(chat_id=chat_id, data=message.document.file_id, caption=application_text, parse_mode='Markdown')
         # bot.forward_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
         main.set_state(message.chat.id, config.States.St_OUTPUT)
@@ -121,7 +124,11 @@ def pictures(message):
         photo = InputMediaPhoto(media=message.photo[-1].file_id)
         photos.append(photo)
         if len(photos) == 1:
-            application['Отправитель'] = '@' + message.from_user.username
+            print(message)
+            try:
+                application['Отправитель'] = '@' + message.from_user.username
+            except TypeError as e:
+                application['Отправитель'] = f'tg://user?id={message.from_user.id}'
             application_text = ''
             for i in application.keys():
                 application_text = application_text + f'*{i}*: {application[i]}\n'
@@ -150,6 +157,5 @@ def pictures(message):
                 telebot.types.InlineKeyboardButton(text='Завершить отправку фото', callback_data='end_photo')
             )
             bot.send_message(message.chat.id, 'Добавить дополнитлеьные фото?', reply_markup=keyboard)
-
 print(bot.polling())
 bot.polling()
