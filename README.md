@@ -1,1 +1,1 @@
-This bot was developed for more easy send applications from MO
+This bot was developing for more easy send applications from MO
